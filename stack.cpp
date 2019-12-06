@@ -36,7 +36,7 @@ int stack::pop(){
 }
 
 int stack::peek(){
-	return items[top];
+	return items[top-1];
 }
 
 int main(int argc,char* argv[]){
