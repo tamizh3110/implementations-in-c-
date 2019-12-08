@@ -29,8 +29,10 @@ class BST{
 		void inorder(struct node**);
 		void postorder(struct node**);
 		void preorder(struct node**);
-		void breadth_first_search();
+		void breadth_first_search(struct node**);
 		void clear_nodes(struct node*);
+		int getheight(struct node**,int,int);
+		void print_levels(struct node**,int);
 };
 
 
@@ -50,6 +52,7 @@ int main(int argc, char* argv[]){
 	b->preorder(h);
 	cout<<"postorder"<<endl;
 	b->postorder(h);
+	b->breadth_first_search(h);
 	delete(b);
 	return(0);
 }
@@ -119,6 +122,44 @@ void BST::clear_nodes(struct node *root){
 	}
 }
 
+void BST::breadth_first_search(struct node **root){
+
+	int h=getheight(root,0,0);
+	cout<<"height is "<<h<<endl;
+	for(int i=0;i<h;i++){
+		print_levels(root,i);
+	}
+
+}
+
+void BST::print_levels(struct node **root,int count){
+	
+	if(count==0){
+		cout<<(*root)->key<<endl;
+	}else{
+		if((*root)->left!=NULL){
+			print_levels(&((*root)->left),count-1);
+		}
+		if((*root)->right!=NULL){
+			print_levels(&((*root)->right),count-1);
+		}
+	}
+	
+
+}
+
+int BST::getheight(struct node **root,int count_left,int count_right){
+	if((*root)->left!=NULL){
+		count_left=count_left+1;
+		getheight(&((*root)->left),count_left,count_right);
+	}
+	if((*root)->right!=NULL){
+		count_right=count_right+1;
+		getheight(&((*root)->right),count_left,count_right);
+	}
+
+	return(1+count_right+count_left);
+}
 
 
 
