@@ -28,14 +28,14 @@ class BST{
 		void traversal(struct node**);
 		void inorder(struct node**);
 		void postorder(struct node**);
-		void get_node_count(struct node**,int);
+		int get_node_count(struct node**);
 		void is_in_tree(struct node**,int);
 		void getMin(struct node**,int);
 		void getMax(struct node**,int);
 		void preorder(struct node**);
 		void breadth_first_search(struct node**);
 		void clear_nodes(struct node*);
-		int getheight(struct node**,int,int);
+		int getheight(struct node**);
 		void print_levels(struct node**,int);
 };
 
@@ -59,7 +59,8 @@ int main(int argc, char* argv[]){
 	cout<<"level order traversal(BFS)"<<endl;
 	b->breadth_first_search(h);
 	cout<<"node count"<<endl;
-	b->get_node_count(h,1);
+	int node_count=b->get_node_count(h);
+	cout<<node_count<<endl;
 	cout<<"check node in tree"<<endl;
 	b->is_in_tree(h,25);
 	cout<<"get max"<<endl;
@@ -69,15 +70,17 @@ int main(int argc, char* argv[]){
 	delete(b);
 	return(0);
 }
-void BST::get_node_count(struct node **root,int counter)
+int BST::get_node_count(struct node **root)
 {
-	if((*root)->left!=NULL){
-		counter=counter+1;
-		get_node_count(&((*root)->left),counter);
-	}if((*root)->right!=NULL){
-		counter=counter+1;
-		get_node_count(&((*root)->right),counter);
-	}	       
+	if((*root)==NULL){
+		return 0;
+	}else{
+	
+		int val_1=get_node_count(&((*root)->left));
+		int val_2= get_node_count(&((*root)->right));
+		
+		return 1+val_1+val_2;
+	}
 		
 }
 
@@ -190,7 +193,7 @@ void BST::clear_nodes(struct node *root){
 
 void BST::breadth_first_search(struct node **root){
 
-	int h=getheight(root,0,0);
+	int h=getheight(root);
 	cout<<"height is "<<h<<endl;
 	for(int i=0;i<h;i++){
 		print_levels(root,i);
@@ -214,8 +217,8 @@ void BST::print_levels(struct node **root,int count){
 
 }
 
-int BST::getheight(struct node **root,int count_left,int count_right){
-	if((*root)->left!=NULL){
+int BST::getheight(struct node **root){
+	/*if((*root)->left!=NULL){
 		count_left=count_left+1;
 		getheight(&((*root)->left),count_left,count_right);
 	}
@@ -223,9 +226,24 @@ int BST::getheight(struct node **root,int count_left,int count_right){
 		count_right=count_right+1;
 		getheight(&((*root)->right),count_left,count_right);
 	}
-
-	return(1+count_right+count_left);
+	*/
+	if((*root)==NULL){
+		return 0;
+	}else{
+	
+		int ld=getheight(&((*root)->left));
+		int rd= getheight(&((*root)->right));
+		if(ld>rd){
+			return ld+1;
+		}else{
+			return rd+1;
+		}
+	
+	}
 }
+
+
+
 
 
 
