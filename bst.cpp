@@ -28,6 +28,10 @@ class BST{
 		void traversal(struct node**);
 		void inorder(struct node**);
 		void postorder(struct node**);
+		void get_node_count(struct node**,int);
+		void is_in_tree(struct node**,int);
+		void getMin(struct node**,int);
+		void getMax(struct node**,int);
 		void preorder(struct node**);
 		void breadth_first_search(struct node**);
 		void clear_nodes(struct node*);
@@ -52,9 +56,71 @@ int main(int argc, char* argv[]){
 	b->preorder(h);
 	cout<<"postorder"<<endl;
 	b->postorder(h);
+	cout<<"level order traversal(BFS)"<<endl;
 	b->breadth_first_search(h);
+	cout<<"node count"<<endl;
+	b->get_node_count(h,1);
+	cout<<"check node in tree"<<endl;
+	b->is_in_tree(h,25);
+	cout<<"get max"<<endl;
+	b->getMax(h,(*h)->key);
+	cout<<"get min"<<endl;
+	b->getMin(h,(*h)->key);
 	delete(b);
 	return(0);
+}
+void BST::get_node_count(struct node **root,int counter)
+{
+	if((*root)->left!=NULL){
+		counter=counter+1;
+		get_node_count(&((*root)->left),counter);
+	}if((*root)->right!=NULL){
+		counter=counter+1;
+		get_node_count(&((*root)->right),counter);
+	}	       
+		
+}
+
+void BST::is_in_tree(struct node **root,int key){
+	if((*root)->key<key){
+		if((*root)->right!=NULL){
+			is_in_tree(&((*root)->right),key);
+		}
+	}else if((*root)->key>key){
+		if((*root)->left!=NULL){
+			is_in_tree(&((*root)->left),key);
+		}
+	
+	}else if((*root)->key==key){
+		cout<<"key present in BST"<<endl;
+	}else{
+		cout<<"key not present in BST"<<endl;
+	
+	}
+}
+
+void BST::getMin(struct node **root,int min_val){
+
+	if((*root)->left!=NULL){
+		if((*root)->left->key<min_val){
+			min_val=(*root)->left->key;
+			getMin(&((*root)->left),min_val);
+		}
+	}else{
+		cout<<"Minimum Value in BST is "<<min_val<<endl;
+	}
+
+}
+
+void BST::getMax(struct node **root,int max_val){
+	if((*root)->right!=NULL){
+		if((*root)->right->key>max_val){
+			max_val=(*root)->right->key;
+			getMax(&((*root)->right),max_val);
+		}
+	}else{
+		cout<<"Maximum value in BST is "<<max_val<<endl;
+	}
 }
 
 void BST::create_tree(int data,struct node **root){
