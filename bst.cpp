@@ -30,13 +30,14 @@ class BST{
 		void postorder(struct node**);
 		int get_node_count(struct node**);
 		void is_in_tree(struct node**,int);
-		void getMin(struct node**,int);
-		void getMax(struct node**,int);
+		void getMin(struct node**);
+		void getMax(struct node**);
 		void preorder(struct node**);
 		void breadth_first_search(struct node**);
 		void clear_nodes(struct node*);
 		int getheight(struct node**);
 		void print_levels(struct node**,int);
+		struct node* delete_node(struct node**,int);
 };
 
 
@@ -64,12 +65,51 @@ int main(int argc, char* argv[]){
 	cout<<"check node in tree"<<endl;
 	b->is_in_tree(h,25);
 	cout<<"get max"<<endl;
-	b->getMax(h,(*h)->key);
+	b->getMax(h);
 	cout<<"get min"<<endl;
-	b->getMin(h,(*h)->key);
+	b->getMin(h);
 	delete(b);
 	return(0);
 }
+
+/*
+struct *node::delete_node(struct node **root,int key){
+	if((*root)==NULL){
+		return root;
+	}else if((*root)->key<key){
+		(*root)->left=delete_node(&((*root)->left),key);
+	}else if((*root)->key>key){
+		(*root)->right=delete_node((&(*root)->right),key);
+
+	}else if((*root)->key==key){
+		if((*root)->right==NULL && (*root)->left==NULL){
+			free(*root);
+			*root=NULL;
+		}else if((*root)->right!=NULL && (*root)->left==NULL){
+			struct node *temp=*root;
+			*root=(*root)->right;
+			free(*root);
+			*root=NULL;
+		}else if((*root)->left!=NULL && (*root)->right==NULL){
+			struct node *temp=*root;
+			*root=(*root)->left;
+			free(*root);
+			*root=NULL;
+		}else if((*root)->right!=NULL && (*root)->left!=NULL){
+			
+			struct node *temp=findmin(root);
+			root->key=temp->key;
+			root->
+			
+		
+		}
+
+	}
+}
+		
+*/
+
+
 int BST::get_node_count(struct node **root)
 {
 	if((*root)==NULL){
@@ -102,27 +142,21 @@ void BST::is_in_tree(struct node **root,int key){
 	}
 }
 
-void BST::getMin(struct node **root,int min_val){
+void BST::getMin(struct node **root){
 
 	if((*root)->left!=NULL){
-		if((*root)->left->key<min_val){
-			min_val=(*root)->left->key;
-			getMin(&((*root)->left),min_val);
-		}
+		getMin(&((*root)->left));
 	}else{
-		cout<<"Minimum Value in BST is "<<min_val<<endl;
+		cout<<"Minimum Value in BST is "<<(*root)->key<<endl;
 	}
 
 }
 
-void BST::getMax(struct node **root,int max_val){
+void BST::getMax(struct node **root){
 	if((*root)->right!=NULL){
-		if((*root)->right->key>max_val){
-			max_val=(*root)->right->key;
-			getMax(&((*root)->right),max_val);
-		}
+		getMax(&((*root)->right));
 	}else{
-		cout<<"Maximum value in BST is "<<max_val<<endl;
+		cout<<"Maximum value in BST is "<<(*root)->key<<endl;
 	}
 }
 
