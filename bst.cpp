@@ -67,81 +67,13 @@ int main(int argc, char* argv[]){
 	b->is_in_tree(h,25);
 	cout<<"get max"<<endl;
 	struct node *max_val=b->getMax(h);
-	cout<<(max_val->key)<<endl;
+	cout<<(max_val->key)<<endl;	
 	cout<<"get min"<<endl;
 	struct node *min_val=b->getMin(h);
 	cout<<(min_val->key)<<endl;
 	delete(b);
 	return(0);
 }
-
-/*
-struct *node::delete_node(struct node **root,int key){
-	if((*root)==NULL){
-		return root;
-	}else if((*root)->key<key){
-		(*root)->left=delete_node(&((*root)->left),key);
-	}else if((*root)->key>key){
-		(*root)->right=delete_node((&(*root)->right),key);
-
-	}else if((*root)->key==key){
-		if((*root)->right==NULL && (*root)->left==NULL){
-			free(*root);
-			*root=NULL;
-		}else if((*root)->right!=NULL && (*root)->left==NULL){
-			struct node *temp=*root;
-			*root=(*root)->right;
-			free(*root);
-			*root=NULL;
-		}else if((*root)->left!=NULL && (*root)->right==NULL){
-			struct node *temp=*root;
-			*root=(*root)->left;
-			free(*root);
-			*root=NULL;
-		}else if((*root)->right!=NULL && (*root)->left!=NULL){
-			
-			struct node *temp=findmin(root);
-			root->key=temp->key;
-			root->
-			
-		
-		}
-
-	}
-}
-		
-*/
-/*
-
-struct node* inorder_successor(struct node **root,int key){
-	if((*root)==NULL){
-                return *root;
-        }else if((*root)->key>key){
-                (*root)->left=delete_node(&((*root)->left),key,b);
-        }else if((*root)->key<key){
-                (*root)->right=delete_node(&((*root)->right),key,b);
-        }else if((*root)->key==key){
-
-		if((*root)->right!=NULL){
-			struct node *temp=getMin(&((*root)->right));
-			return temp;
-		}else if((*root)->right==NULL){
-		
-			struct node* parent_root=parent;
-			struct node* successor=NULL;
-			while(*parent!=*root){
-				successor=parent;
-				parent=parent->left;
-			}
-			return successor;
-		
-		}
-
-	}
-}
-
-*/
-
 
 struct node* BST::delete_node(struct node **root,int key,BST *b){
 
