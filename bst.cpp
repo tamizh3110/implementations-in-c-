@@ -30,14 +30,14 @@ class BST{
 		void postorder(struct node**);
 		int get_node_count(struct node**);
 		void is_in_tree(struct node**,int);
-		void getMin(struct node**);
-		void getMax(struct node**);
+		struct node* getMin(struct node**);
+		struct node* getMax(struct node**);
 		void preorder(struct node**);
 		void breadth_first_search(struct node**);
 		void clear_nodes(struct node*);
 		int getheight(struct node**);
 		void print_levels(struct node**,int);
-		struct node* delete_node(struct node**,int);
+		struct node* delete_node(struct node**,int,BST *);
 };
 
 
@@ -57,6 +57,7 @@ int main(int argc, char* argv[]){
 	b->preorder(h);
 	cout<<"postorder"<<endl;
 	b->postorder(h);
+	struct node *deleted_node=b->delete_node(h,2,b);
 	cout<<"level order traversal(BFS)"<<endl;
 	b->breadth_first_search(h);
 	cout<<"node count"<<endl;
@@ -65,9 +66,11 @@ int main(int argc, char* argv[]){
 	cout<<"check node in tree"<<endl;
 	b->is_in_tree(h,25);
 	cout<<"get max"<<endl;
-	b->getMax(h);
+	struct node *max_val=b->getMax(h);
+	cout<<(max_val->key)<<endl;
 	cout<<"get min"<<endl;
-	b->getMin(h);
+	struct node *min_val=b->getMin(h);
+	cout<<(min_val->key)<<endl;
 	delete(b);
 	return(0);
 }
@@ -108,6 +111,78 @@ struct *node::delete_node(struct node **root,int key){
 }
 		
 */
+/*
+
+struct node* inorder_successor(struct node **root,int key){
+	if((*root)==NULL){
+                return *root;
+        }else if((*root)->key>key){
+                (*root)->left=delete_node(&((*root)->left),key,b);
+        }else if((*root)->key<key){
+                (*root)->right=delete_node(&((*root)->right),key,b);
+        }else if((*root)->key==key){
+
+		if((*root)->right!=NULL){
+			struct node *temp=getMin(&((*root)->right));
+			return temp;
+		}else if((*root)->right==NULL){
+		
+			struct node* parent_root=parent;
+			struct node* successor=NULL;
+			while(*parent!=*root){
+				successor=parent;
+				parent=parent->left;
+			}
+			return successor;
+		
+		}
+
+	}
+}
+
+*/
+
+
+struct node* BST::delete_node(struct node **root,int key,BST *b){
+
+//traverse the node to find the key then decide upon deletion based on the number of children the node to be deleted has
+	if((*root)==NULL){
+		return *root;
+	}else if((*root)->key>key){
+		(*root)->left=delete_node(&((*root)->left),key,b);
+	}else if((*root)->key<key){
+		(*root)->right=delete_node(&((*root)->right),key,b);
+	}else if((*root)->key==key){
+	
+		if((*root)->right==NULL && (*root)->left==NULL){
+
+			free(*root);
+			*root=NULL;
+		
+		}else if((*root)->right!=NULL && (*root)->left==NULL){
+
+			struct node *temp=*root;
+			*root=(*root)->right;
+			free(temp);
+			temp=NULL;
+
+		
+		}else if((*root)->left!=NULL && (*root)->right==NULL){
+		
+			struct node *temp=*root;
+			*root=(*root)->left;
+			free(temp);
+			temp=NULL;
+
+		}else if((*root)->left!=NULL && (*root)->right!=NULL){
+			struct node *temp=b->getMin(&((*root)->right));
+			(*root)->key=(temp)->key;
+			(*root)->right=delete_node(&((*root)->right),(temp)->key,b);
+		}
+	
+	}
+	return *root;
+}
 
 
 int BST::get_node_count(struct node **root)
@@ -142,22 +217,30 @@ void BST::is_in_tree(struct node **root,int key){
 	}
 }
 
-void BST::getMin(struct node **root){
+struct node* BST::getMin(struct node **root){
+	
 
-	if((*root)->left!=NULL){
-		getMin(&((*root)->left));
-	}else{
-		cout<<"Minimum Value in BST is "<<(*root)->key<<endl;
+
+	while((*root)->left!=NULL){
+		*root=(*root)->left;
 	}
+
+
+
+
+	//cout<<"Minimum Value in BST is "<<(*root)->key<<endl;
+	return *root;
+	
 
 }
 
-void BST::getMax(struct node **root){
-	if((*root)->right!=NULL){
-		getMax(&((*root)->right));
-	}else{
-		cout<<"Maximum value in BST is "<<(*root)->key<<endl;
+struct node* BST::getMax(struct node **root){
+	while((*root)->right!=NULL){
+		*root=(*root)->right;
 	}
+	
+	//cout<<"Maximum value in BST is "<<(*root)->key<<endl;
+	return *root;
 }
 
 void BST::create_tree(int data,struct node **root){
