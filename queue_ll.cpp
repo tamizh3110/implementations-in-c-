@@ -72,11 +72,21 @@ void Queue::enqueue(int data){
 int Queue::dequeue(){
 
 	Node **init_node=getInitial();
+	Node **rear_node=getMover();
 	Node *next_node=(*init_node)->next;
 	int data=(*init_node)->data;
-	free(*init_node);
-	*init_node=NULL;
-	*init_node=next_node;
+	
+	if((*init_node)==(*rear_node)){
+	
+		free(*init_node);
+		*init_node=NULL;
+		*rear_node=NULL;
+	}else{
+		free(*init_node);
+		*init_node=NULL;
+		*init_node=next_node;
+	}
+
 	return data;
 
 }
@@ -110,7 +120,7 @@ int main(){
 	q->dequeue();
 	q->dequeue();
 	q->dequeue();
-	//q->dequeue();
+	q->dequeue();
 	q->isEmpty();
 	return(0);
 	
