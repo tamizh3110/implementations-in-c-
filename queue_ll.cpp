@@ -122,6 +122,8 @@ int main(){
 	q->dequeue();
 	q->dequeue();
 	q->isEmpty();
+	q->enqueue(10);
+	q->isEmpty();
 	return(0);
 	
 }
