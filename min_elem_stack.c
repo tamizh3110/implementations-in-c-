@@ -58,7 +58,7 @@ int pop(struct stack *s){
 int main(int argc,char *argv[]){
 
 	struct stack *s;
-	int size=0;
+	int size=0,input_val=0;
 	s=(struct stack*)malloc(sizeof(struct stack));
 	
 	s->top=0;
@@ -68,14 +68,15 @@ int main(int argc,char *argv[]){
 	
 	s->arr=(int*)malloc(size*sizeof(int));
 
-	push(s,100,size);
-	push(s,20,size);
-	push(s,2,size);
-	push(s,150,size);
-	push(s,250,size);
-
-	printf("min value is=%d",(s->min_value));
+	printf("enter contents of stack\n");
 	
+	for(int i=0;i<size;i++){
+
+		scanf("%d",&input_val);
+		push(s,input_val,size);
+	}
+
+	printf("min value is= %d",(s->min_value));
 	free(s->arr);
 	free(s);
 	return(0);
